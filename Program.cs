@@ -40,28 +40,22 @@ namespace dictionaries
                 // Does the company name key already exist in the report dictionary?
                 string companyName = stocks[purchase.ticker];
                 double stockValue = purchase.shares * purchase.price;
-                // returns boolean for whether it exists in stockDetails 
-                if (stockDetails.ContainsKey(companyName))
+                // returns boolean for whether companyName key exists in stockDetails 
+                if (!stockDetails.ContainsKey(companyName))
                 {
-                    // set value 
-                    stockValue += 0;
-                } else {
-                    // add and set its value
+                    // If it doesn't exist, add and set its value
                     stockDetails.Add(companyName, stockValue);
-                }
-            
-            Console.WriteLine($@"
-                {companyName}: {stockValue}
-            ");
-            }
 
-         
-            // {
-            //     "General Electric": 35900,
-            //     "AAPL": 8445,
-            //     ...
-            // }
-            
+                } else {
+                    // If company name already exists, update the total valuation
+                    stockDetails[companyName] += stockValue;
+                }
+            }
+            // iterate over dictionary to display company and total stock value
+            foreach(KeyValuePair<string, double> companyDetails in stockDetails)
+            {
+            Console.WriteLine("{0}: {1}", companyDetails.Key, companyDetails.Value);
+            }
         }
     }
 }
